@@ -18,7 +18,7 @@ The best performing model was the one produced by the AutoML run. AutoML model's
 ## Scikit-learn Pipeline
 
 1. The dataset is loaded from the given [URL](https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv) into the notebook using the `TabularDatasetFactory` class. 
-2. The loaded dataset is cleaned using the clean_data() method written in train.py file. It performs various preprocessing steps, such as: 
+2. The loaded dataset is cleaned using the `clean_data` method written in train.py file. It performs various preprocessing steps, such as: 
    - Dropping null values.
    - One-hot-encoding of categorical features using `get_dummies` function of Pandas or by binarization applying Python's lambda function.
    - Converting/encoding month and day of the week variables from strings to int.
