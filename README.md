@@ -8,7 +8,7 @@ This model is then compared to an Azure AutoML run.
 ## Project Workflow
 The overall workflow/architecture of the project for creating and optimizing the ML pipeline is shown below:
 
-![architecture](arch.JPG)
+![architecture](architecture.JPG)
 
 ## Summary
 The dataset contains data about a bank marketing campaign. It contains 21 features related to 322951 potential customers. We need to to predict whether a given client would subscribe to a term deposit or not. The dataset contained information about the last call that was made to the prospective client about the current campaign and the information about the client's credit history and demographic data.
