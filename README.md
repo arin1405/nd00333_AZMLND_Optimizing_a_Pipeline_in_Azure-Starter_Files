@@ -29,6 +29,8 @@ The best performing model was the one produced by the AutoML run. AutoML model's
 7. The regularization hyperparameter `--C` is the inverse of regularization strength. It is set to ensure that our model does not overfit the data by penalizing addition of features. 
 8. The `--max-iter` (maximum iteration) hyperparameter controls the number of iterations to be done before we select our final model (convergence).
 9. The bandit termination policy (`BanditPolicy`) helps to stop the iteration early when the primary metric being evaluated is outside the slack factor threshold. It helps to converge to the best model faster and saves time and resources.
+10. The optimal values for the hyperparemters are found as `--C` : 0.4601627893840776, `--max_iter`: 100.
+11. Using Hyperdrive, scikit-learn's Logistic regression model achieved 91.09% accuracy.
 
 ### Hyperparameter Tuning using HyperDrive
 The HyperDrive package is used to optimize tuning of hyperparameters by using the `HyperDriveConfig` function. It contains:
