@@ -16,19 +16,34 @@ The dataset contains data about a bank marketing campaign. It contains 21 featur
 The best performing model was the one produced by the AutoML run. AutoML model's accuracy was 91.59% which was better than the Logistic Regression model with the accuracy of 91.09%.
 
 ## Scikit-learn Pipeline
-We first performed the data cleaning activity. The feature engineering tasks were performed where we encoded categorical features of the dataset, month and day of the week variables were converted from strings to int. 
 
-Logistic Regression is chosen as prediction model.
+1. The dataset is loaded from the given [URL](https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv) into the notebook using the `TabularDatasetFactory` class. 
+2. The loaded dataset is cleaned using the clean_data() method written in train.py file. It performs various preprocessing steps, such as: 
+   - Dropping null values.
+   - One-hot-encoding of categorical features using `get_dummies` function of Pandas or by binarization applying Python's lambda function.
+   - Converting/encoding month and day of the week variables from strings to int.
+3. Then the data is split into train and test sets in 80:20 ratio using `test_train_split` function of Scikit-Learn.
+4. The converted data is then fit into Logistic Regression model.
+5. Hyperdrive is used to tune the two hyperparameters called 'C' and 'max-iter'. 
+6. The parameter sampler (`RandomParameterSampling`) helps to find the optimal hyperparameters by randomly sampling combinations of them. 
+7. The regularization hyperparameter `--C` is the inverse of regularization strength. It is set to ensure that our model does not overfit the data by penalizing addition of features. 
+8. The `--max-iter` (maximum iteration) hyperparameter controls the number of iterations to be done before we select our final model (convergence).
+9. The bandit termination policy (`BanditPolicy`) helps to stop the iteration early when the primary metric being evaluated is outside the slack factor threshold. It helps to converge to the best model faster and saves time and resources.
 
-The parameter sampler helps to find the optimal hyperparameters by randomly sampling combinations of them. 
-The regularization hyperparameter (C) is set to ensure that our model does not overfit the data by penalizing addition of features. 
-The max_iter (maximum iteration) hyperparameter controls the number of iterations to be done before we select our final model.
+### Hyperparameter Tuning using HyperDrive
+The HyperDrive package is used to optimize tuning of hyperparameters by using the `HyperDriveConfig` function. It contains:
 
-Additionally, we split the data into train and test datasets. We use 80:20 ratio for train and test respectively.
+- `estimator` (est): A scikit-learn estimator to begin the training and invoke the training script file using the given compute cluster.
+- `hyperparameter_sampling`: A `RandomParameterSampling` sampler to randomly select values given in the search space for the two hyper-parameters of Logistic Regression model (`--c` and `--max_iter`).
+`policy`: The early termination `BanditPolicy` as mentioned above.
+`primary_metric_name`: The primary metric for evaluating the runs - here we use "accuracy" as the primary metric.
+`primary_metric_goal`: The goal is to maximize the primary metric "accuracy" (primary_metric_goal.MAXIMIZE) in every run.
+`max_concurrent_runs`: Maximum number of runs to run concurrently in the experiment.
+`max_total_runs`: Maximum number of total training runs.
 
-The bandit termination policy helps to stop the iteration early when the primary metric being evaluated is outside the slack factor threshold. It helps to converge to the best model faster.
 
 ## AutoML
+
 In the AutoML pipeline, we first created the tabular dataset with the training data. The data preparation and feature engineering steps are same as scikit learn pipeline.
 We can evaluate different models in AutoML. AutoML generated 31 iterations; the best model (VotingEnsemble) comes up with 0.9159 of accuracy with the following hyperparameters selected:
 
